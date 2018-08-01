@@ -1,0 +1,9 @@
+.dropping-zone{
+    border: solid 1px black;
+}
+
+.hello{
+    visibility: hidden;
+    display: none;
+}
+

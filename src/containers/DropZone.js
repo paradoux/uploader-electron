@@ -45,6 +45,8 @@ class DropZone extends React.Component {
     }
 
     constructFile = (e) => {
+        e.preventDefault()
+
         let { name } = e.dataTransfer.files[0]
         const data = new FormData()
         data.append('file', e.dataTransfer.files[0])
@@ -104,7 +106,7 @@ class DropZone extends React.Component {
                     <h1>Hello DropZone</h1>
                     {this.displayName()}
                     <form action="">
-                        <input type="file" />
+                        <input className="hello" type="file" />
                     </form>
                 </div>
             </div>
