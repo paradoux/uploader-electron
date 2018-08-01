@@ -14,9 +14,8 @@ class DropZone extends React.Component {
         this.displayName = this.displayName.bind(this)
     }
 
-    getRequest = async () => {
-        const results = await axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
-        return results
+    getRequest = () => {
+        return axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
     }
 
     componentDidMount = async () => {
@@ -46,7 +45,6 @@ class DropZone extends React.Component {
 
     constructFile = (e) => {
         e.preventDefault()
-
         let { name } = e.dataTransfer.files[0]
         const data = new FormData()
         data.append('file', e.dataTransfer.files[0])
@@ -78,7 +76,6 @@ class DropZone extends React.Component {
                     total++
                 }
                 this.setState({ ...this.state, total })
-
             })
     }
 
@@ -92,7 +89,7 @@ class DropZone extends React.Component {
                 </div>
             )
         }
-        else { return (<h1> Upload the document you want ! </h1>) }
+        else { return (<h3> Drag and Drop here the document you want ! </h3>) }
     }
 
     render() {
@@ -103,10 +100,10 @@ class DropZone extends React.Component {
                     onDragOver={(e) => { this.dragOverHandler(e) }}
                     onDrop={(e) => { this.handleDrop(e) }}
                 >
-                    <h1>Hello DropZone</h1>
+                    <h1>This is the dropping Zone</h1>
                     {this.displayName()}
                     <form action="">
-                        <input className="hello" type="file" />
+                        <input className="hello" type="file" accept="application/pdf" />
                     </form>
                 </div>
             </div>

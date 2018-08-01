@@ -10,11 +10,6 @@ let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({ width: 800, height: 600 });
 
-    /*     const startUrl = process.env.ELECTRON_START_URL || url.format({
-            pathname: path.join(__dirname, '/../build/index.html'),
-            protocol: 'file:',
-            slashes: true
-        }); */
     mainWindow.loadURL(`file://${__dirname}/src/index.html`);
 
     mainWindow.webContents.openDevTools();
@@ -38,8 +33,6 @@ app.on('activate', function () {
     }
 });
 
-var { dialog } = electron;
-
 function StartWatcher(path) {
     var chokidar = require("chokidar");
 
@@ -54,14 +47,15 @@ function StartWatcher(path) {
     }
     watcher
         .on('add', (path) => {
-            console.log(path)
             var data = fs.readFileSync(path, 'utf-8', (err, data) => {
                 if (err) {
                     alert("An error ocurred reading the file :" + err.message);
                     return;
                 }
             });
-            mainWindow.webContents.send('fileupload', data)
+
+            (fs.statSync(path).size <= 2000000) ? mainWindow.webContents.send('fileupload', data) : console.error('Sorry, this file is too big to be uploaded')
+
         })
         .on('error', function (error) {
             console.log('Error happened', error);
