@@ -14,10 +14,6 @@ class DropZone extends React.Component {
         this.displayName = this.displayName.bind(this)
     }
 
-    getRequest = () => {
-        return axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
-    }
-
     componentDidMount = async () => {
         this.getRequest()
             .then((res) => {
@@ -39,16 +35,18 @@ class DropZone extends React.Component {
         })
     }
 
+    getRequest = () => {
+        return axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
+    }
+
     dragOverHandler = (e) => {
         e.preventDefault()
     }
 
     constructFile = (e) => {
         e.preventDefault()
-        let { name } = e.dataTransfer.files[0]
         const data = new FormData()
         data.append('file', e.dataTransfer.files[0])
-        data.append('name', name)
         return data
     }
 
@@ -58,7 +56,6 @@ class DropZone extends React.Component {
         axios.post('https://fhirtest.uhn.ca/baseDstu3/Binary', data)
             .then((res) => {
                 let id = res.data.issue[0].diagnostics.match(/\d/g).join("")
-                console.log(name)
                 this.setState({ ...this.state, name, id })
             })
             .then(this.getTotal())
@@ -94,18 +91,16 @@ class DropZone extends React.Component {
 
     render() {
         return (
-            <div>
-                <div
-                    className="dropping-zone"
-                    onDragOver={(e) => { this.dragOverHandler(e) }}
-                    onDrop={(e) => { this.handleDrop(e) }}
-                >
-                    <h1>This is the dropping Zone</h1>
-                    {this.displayName()}
-                    <form action="">
-                        <input className="hello" type="file" accept="application/pdf" />
-                    </form>
-                </div>
+            <div
+                className="dropping-zone"
+                onDragOver={(e) => { this.dragOverHandler(e) }}
+                onDrop={(e) => { this.handleDrop(e) }}
+            >
+                <h1>This is the dropping Zone</h1>
+                {this.displayName()}
+                <form action="">
+                    <input className="hello" type="file" accept="application/pdf" />
+                </form>
             </div>
         )
     }
