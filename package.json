@@ -9,6 +9,8 @@
   },
   "author": "Axel",
   "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
     "electron": "^2.0.5"
   },
   "dependencies": {

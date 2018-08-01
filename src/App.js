@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import DropZone from './containers/DropZone'
+import DropZone from './containers/DropZone';
 
 class App extends Component {
   render() {

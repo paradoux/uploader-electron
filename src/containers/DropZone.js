@@ -14,30 +14,30 @@ class DropZone extends React.Component {
         this.displayName = this.displayName.bind(this)
     }
 
-    getRequest = () => {
-        return axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
+    getRequest = async () => {
+        const results = await axios.get('https://fhirtest.uhn.ca/baseDstu3/Binary')
+        return results
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.getRequest()
             .then((res) => {
                 let { total } = res.data
                 this.setState({ ...this.state, total })
             })
-        const data = new FormData()
-        data.append('file', ipcRenderer.on('fileupload', (e, file) => {
-            return file
-        }))
-        axios.post('https://fhirtest.uhn.ca/baseDstu3/Binary', data)
-            .then((res) => {
-                let id = res.data.issue[0].diagnostics.match(/\d/g).join("")
-                this.setState({ ...this.state, id })
-            })
-            .then(this.getTotal())
-            .catch((err) => {
-                console.error(err)
-                alert("Sorry, the document couldn't be uploaded")
-            })
+
+        ipcRenderer.on('fileupload', (e, file) => {
+            axios.post('https://fhirtest.uhn.ca/baseDstu3/Binary', new FormData({ 'file': file }))
+                .then((res) => {
+                    let id = res.data.issue[0].diagnostics.match(/\d/g).join("")
+                    this.setState({ ...this.state, id })
+                })
+                .then(this.getTotal())
+                .catch((err) => {
+                    console.error(err)
+                    alert("Sorry, the document couldn't be uploaded")
+                })
+        })
     }
 
     dragOverHandler = (e) => {

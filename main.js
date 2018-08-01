@@ -52,7 +52,6 @@ function StartWatcher(path) {
     function onWatcherReady() {
         console.info('From here can you check for real changes, the initial scan has been completed.');
     }
-    // Declare the listeners of the watcher
     watcher
         .on('add', (path) => {
             console.log(path)
