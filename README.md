@@ -1,4 +1,7 @@
 ### Getting started
+Desktop app to upload files to a DB from a folder or directly in the app made with Electron and React.js.
+
+### Getting started
 
 `npm install`
 
